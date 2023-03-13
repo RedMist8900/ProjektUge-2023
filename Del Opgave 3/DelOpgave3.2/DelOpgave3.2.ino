@@ -16,6 +16,9 @@
 #define LED_PIN 12
 #define BUTTON_PIN 13
 
+// Del Opgave 3.2
+#define BUZZER 11
+
 // Make a special ThreeWire class variable that holds all three wire connections
 ThreeWire myWire(DATE,CLOCK,RESET); 
 
@@ -27,11 +30,14 @@ void setup () // Initialization code
 {
   Serial.begin(57600); // Initialize Serial Monitor at 57600 baud
 
-  Rtc.Begin(); // Initialize the RTCDS1302 variable to use with    clock and date methods
-
   // Del Opgave 2
   pinMode(LED_PIN, OUTPUT);
   pinMode(BUTTON_PIN, INPUT);
+
+  // Del Opgave 3
+  pinMode(BUZZER, OUTPUT);
+  
+  Rtc.Begin(); // Initialize the RTCDS1302 variable to use with    clock and date methods
 
   // Get current date and time in the right format from the DS1302 module
   RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__); 
@@ -100,11 +106,13 @@ void loop ()
   // Del Opgave 2
   if (digitalRead(BUTTON_PIN) == HIGH) {
     digitalWrite(LED_PIN, HIGH);
+    tone(BUZZER, 1000);
   }
   else {
     digitalWrite(LED_PIN, LOW);
+    noTone(BUZZER);
   }
-  
+
   // Get current Date and Time and place it in the variable "now" that is of type RtcDateTime (object)
   RtcDateTime now = Rtc.GetDateTime(); 
 
