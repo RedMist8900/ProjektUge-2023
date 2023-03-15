@@ -7,6 +7,7 @@
 
 #include <ThreeWire.h>  // Include helper library to help create 					 the DS1302 object needed for this code
 #include <RtcDS1302.h>  // Include DS1302 library with the correct 				 methods and properties
+#include <Wire.h>
 
 #define CLOCK 6   // Define the constant variable CLOCK to be equal to 5 (the pin CLK is connected to)
 #define DATE 7    // Define the constant variable DATE to be equal to 4 (the pin DAT is connected to)
@@ -18,6 +19,9 @@
 
 // Del Opgave 3.2
 #define BUZZER 11
+
+// Del Opgave 5
+#define I2C_SLAVE1_ADDRESS 
 
 byte lastButtonState = LOW;
 byte ledState = LOW;
@@ -169,3 +173,4 @@ void loop ()
   // Wait ten seconds then run loop again
   delay(10000);
 }
+

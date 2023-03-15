@@ -7,6 +7,7 @@
 
 #include <ThreeWire.h>  // Include helper library to help create 					 the DS1302 object needed for this code
 #include <RtcDS1302.h>  // Include DS1302 library with the correct 				 methods and properties
+#include <Wire.h>
 
 #define CLOCK 6   // Define the constant variable CLOCK to be equal to 5 (the pin CLK is connected to)
 #define DATE 7    // Define the constant variable DATE to be equal to 4 (the pin DAT is connected to)
@@ -21,6 +22,8 @@
 
 byte lastButtonState = LOW;
 byte ledState = LOW;
+
+int array[6];
 
 // Make a special ThreeWire class variable that holds all three wire connections
 ThreeWire myWire(DATE,CLOCK,RESET); 
@@ -39,6 +42,9 @@ void setup () // Initialization code
 
   // Del Opgave 3
   pinMode(BUZZER, OUTPUT);
+
+  Wire.begin();
+  
   
   Rtc.Begin(); // Initialize the RTCDS1302 variable to use with    clock and date methods
 
@@ -134,29 +140,6 @@ void loop ()
   int Minute = now.Minute();
   int Second = now.Second();
 
-  // Print text in Serial Monitor without line break
-  Serial.print("Year: ");
-  
-  // Print value of variable Year in Serial Monitor and then insert line break
-  Serial.println(Year);
-  
-  // Print text in Serial Monitor
-  Serial.print("Month: ");
-
-  // Print value of variable Month in Serial Monitor and then insert line break
-  Serial.println(Month);
-  
-  // Same as above....
-  Serial.print("Day: ");
-  Serial.println(Day);
-  Serial.print("Hour: ");
-  Serial.println(Hour);
-  Serial.print("Minute: ");
-  Serial.println(Minute);
-  Serial.print("Second: ");
-  Serial.println(Second);
-  Serial.println();
-
   // If the fetched time is not valid
   if (!now.IsValid()) 
   {
@@ -166,6 +149,23 @@ void loop ()
     // Print status message in Serial Monitor
   }
 
+    // array == array{Year, Month, Day, Hour, Minute, Second};
+    array[0] = Year;
+    array[1] = Month;
+    array[2] = Day;
+    array[3] = Hour;
+    array[4] = Minute;
+    array[5] = Second;
+
+  //Del Opgave 5
+    Wire.beginTransmission(9);
+    for(int i = 0; i < 6; i++){
+        Wire.write(array[i]);
+        Serial.println(array[i]);        
+    }
+    Wire.endTransmission();
+
   // Wait ten seconds then run loop again
   delay(10000);
 }
+
