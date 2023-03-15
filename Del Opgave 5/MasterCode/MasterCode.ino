@@ -5,9 +5,10 @@
 // DS1302 VCC --> 5v
 // DS1302 GND --> GND
 
+#include <Wire.h>
 #include <ThreeWire.h>  // Include helper library to help create 					 the DS1302 object needed for this code
 #include <RtcDS1302.h>  // Include DS1302 library with the correct 				 methods and properties
-#include <Wire.h>
+#include <RTClib.h>
 
 #define CLOCK 6   // Define the constant variable CLOCK to be equal to 5 (the pin CLK is connected to)
 #define DATE 7    // Define the constant variable DATE to be equal to 4 (the pin DAT is connected to)
@@ -25,11 +26,14 @@ byte ledState = LOW;
 
 int array[6];
 
+
 // Make a special ThreeWire class variable that holds all three wire connections
 ThreeWire myWire(DATE,CLOCK,RESET); 
 
 // Make an RTCDS1302 class variable (with the ThreeWire variable) to use for all time and date methods
 RtcDS1302<ThreeWire> Rtc(myWire);
+
+RTC_DS3231 rtc;
 
 
 void setup () // Initialization code
@@ -48,9 +52,16 @@ void setup () // Initialization code
   
   Rtc.Begin(); // Initialize the RTCDS1302 variable to use with    clock and date methods
 
+  rtc.begin();
+
+  //Rtc.SetDateTime(00, 31, 13, 3, 15, 3, 2023);  
+
   // Get current date and time in the right format from the DS1302 module
   RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__); 
   
+  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  //rtc.adjust(DateTime(2023, 3, 15, 14, 35, 0));
+
   // If the Rtc-object doesn't contain a valid date/time format
   if (!Rtc.IsDateTimeValid())  
   {
@@ -125,31 +136,34 @@ void loop ()
     }
   }
 
+  //Rtc.updateTime();
+
   // Get current Date and Time and place it in the variable "now" that is of type RtcDateTime (object)
-  RtcDateTime now = Rtc.GetDateTime(); 
+  DateTime now = rtc.now(); 
+
+  
 
   // Get Year from "now" variable and put into variable Year
-  int Year = now.Year();      
+  int Year = now.year();      
 
   // Get Month from "now" variable and put into variable Month
-  int Month = now.Month();    
+  int Month = now.month();    
   
   // Same as above…
-  int Day = now.Day();        
-  int Hour = now.Hour();
-  int Minute = now.Minute();
-  int Second = now.Second();
+  int Day = now.day();        
+  int Hour = now.hour();
+  int Minute = now.minute();
+  int Second = now.second();
 
   // If the fetched time is not valid
-  if (!now.IsValid()) 
+  /*if (!now.IsValid()) 
   {
     // Common Causes:
     // The battery on the device is low or even missing and the power line was disconnected
     Serial.println("RTC lost confidence in the DateTime!"); 
     // Print status message in Serial Monitor
-  }
+  }*/
 
-    // array == array{Year, Month, Day, Hour, Minute, Second};
     array[0] = Year;
     array[1] = Month;
     array[2] = Day;
@@ -166,6 +180,6 @@ void loop ()
     Wire.endTransmission();
 
   // Wait ten seconds then run loop again
-  delay(10000);
+  delay(1000);
 }
 
