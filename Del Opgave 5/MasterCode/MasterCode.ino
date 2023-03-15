@@ -59,7 +59,7 @@ void setup () // Initialization code
   // Get current date and time in the right format from the DS1302 module
   RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__); 
   
-  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2023, 3, 15, 14, 35, 0));
 
   // If the Rtc-object doesn't contain a valid date/time format
