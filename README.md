@@ -35,12 +35,12 @@ Project Involves Arduino Uno
 Which include the addition of the lcd display.
 
 # Code:
-  Done by RedMist
-  Hardware by Alexander
+  - Done by RedMist
+  - Hardware by Alexander
 
 # Team Members: 
   - Alexander
   - Anders
   - Magnus
   - Xiao Di
-  - Alexander
+  - RedMist
