@@ -58,8 +58,9 @@ void setup () // Initialization code
 
   // Get current date and time in the right format from the DS1302 module
   RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__); 
+  //DateTime compiled = rtc.now();
   
-  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2023, 3, 15, 14, 35, 0));
 
   // If the Rtc-object doesn't contain a valid date/time format
@@ -139,21 +140,22 @@ void loop ()
   //Rtc.updateTime();
 
   // Get current Date and Time and place it in the variable "now" that is of type RtcDateTime (object)
-  DateTime now = rtc.now(); 
+  //DateTime now = rtc.now(); 
+  RtcDateTime now = Rtc.GetDateTime(); 
 
   
 
   // Get Year from "now" variable and put into variable Year
-  int Year = now.year();      
+  int Year = now.Year();      
 
   // Get Month from "now" variable and put into variable Month
-  int Month = now.month();    
+  int Month = now.Month();    
   
   // Same as above…
-  int Day = now.day();        
-  int Hour = now.hour();
-  int Minute = now.minute();
-  int Second = now.second();
+  int Day = now.Day();        
+  int Hour = now.Hour();
+  int Minute = now.Minute();
+  int Second = now.Second();
 
   // If the fetched time is not valid
   /*if (!now.IsValid()) 
