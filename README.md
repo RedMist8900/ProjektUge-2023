@@ -34,9 +34,6 @@ Project Involves Arduino Uno
 ** Done all 8 part assignments. 
 Which include the addition of the lcd display.
 
-# Code:
-  - Done by RedMist
-  - Hardware by Alexander
 
 # Team Members: 
   - Alexander
